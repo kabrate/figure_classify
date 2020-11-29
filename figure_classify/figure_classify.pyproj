@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3e7dccf-86bd-44e3-94e6-b0151ad9e6e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>module1.py</StartupFile>
+    <StartupFile>load.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,7 +23,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="figure_classify.py" />
-    <Compile Include="module1.py">
+    <Compile Include="cudatest.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="load.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
