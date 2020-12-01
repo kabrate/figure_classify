@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3e7dccf-86bd-44e3-94e6-b0151ad9e6e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>load.py</StartupFile>
+    <StartupFile>test.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,11 +22,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="figure_classify.py" />
+    <Compile Include="continue_train.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="train.py" />
     <Compile Include="cudatest.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="load.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pyc.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
