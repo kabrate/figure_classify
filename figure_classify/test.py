@@ -11,10 +11,14 @@ import time
 import os
 import copy
 
-input_size = 200
+input_size = 500
 batch_size = 128
 data_dir = "./trainsleep"
-
+num=1
+frs =np.zeros(250)
+fas =np.zeros(250)
+fr=0
+fa=0
 test_imgs = datasets.ImageFolder('E:/data/dev/test', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
@@ -35,20 +39,59 @@ model.load_state_dict(torch.load('model95.pth'))
 #model = torch.load(path)
 print(model)
 start_time = time.time()
-test_loss = 0
-num_correct = 0.0
+#test_loss = 0
+#num_correct = 0.0
 
-model.eval()
-
+#model.eval()
+zes=torch.zeros(128).type(torch.LongTensor).to(device)#全0变量
+ons=torch.ones(128).type(torch.LongTensor).to(device)#全1变量
+ons=ons.resize_(12)
+#194
 with torch.no_grad():
-    for _, [img, labels] in enumerate(test_data):
-        inputs, labels = img.to(device).float(), labels.to(device)
+    model.eval()
+    test_loss = 0
+    num_correct = 0.0
+    out=open('preds.txt','a')
+    print( 'output1'+' ' +'output2'+' ' +'score' +' ' + 'labels' +' ' + 'preds' +' '+ 'probability0'+' ' +'probability1',file=out)
+    out.close()
+    for index, [img, labels] in enumerate(test_data):
+        inputs, labels = img.to(device).float(), labels.to(device)      
         outputs = model(inputs)
         loss = criterion(outputs, labels)
         test_loss += float(loss.cpu().item())
-        _, preds = outputs.max(1)
-    num_correct += preds.eq(labels).sum().float().item()
+        scores, preds = outputs.max(1)
+        probability = torch.nn.functional.softmax(outputs,dim=1)#计算softmax，即该图片属于各类的概率
+        out=open('preds.txt','a')
+        for i in range(0,len(labels)): 
+            score=round(scores[i].cpu().item(),4)
+            output0= round(outputs[i][0].cpu().item(),4)
+            output1= round(outputs[i][1].cpu().item(),4)
+            probability0=round(probability[i][0].cpu().item(),4)
+            probability1=round(probability[i][1].cpu().item(),4)
+            print( str(output0)+' ' +str(output1)+' ' +str(score) +' ' + str(labels[i].cpu().item()) +' ' + str(preds[i].cpu().item())+' '+ str(probability0)+' ' +str(probability1) ,file=out)
+        out.close()
+        #num_correct += preds.eq(labels).sum().float().item()
+        num_correct += (preds == labels).sum()
+        torch.cuda.empty_cache()
+        #if (preds.size()!=ons.size() or preds.size()!=zes.size()):
+        #    ons=ons.resize_(preds.size())
+        #    zes=zes.resize_(preds.size())
+        #frs[num] = ((preds==zes)&(labels==ons)).sum()+ frs[num-1] #原标签为1，预测为 0 的总数 false reject
+        #fr+=((preds==zes)&(labels==ons)).sum().float() #原标签为1，预测为 0 的总数 false reject
+        #fa+=((preds==ons)&(labels==zes)).sum().float() #原标签为0，预测为 1 的总数 false accept
+
+        #fas[num] = ((preds==ons)&(labels==zes)).sum() + fas[num-1] #原标签为0，预测为1 的总数 false accept
+        #num=num+1
+        #tan = ((preds==ons)&(labels==ons)).sum() #原标签为1，预测为1 的总数 true accept
+        #trn = ((preds==zes)&(labels==zes)).sum() #原标签为0，预测为1 的总数 true reject
+    #np.savetxt(fr.txt,frs)
+    #np.savetxt(fa.txt,fas)
     logger1 = 'test loss:{:.6f}'.format(test_loss)
     logger1 += ', test acc:{:.6f}'.format(num_correct / len(test_data.dataset))
     logger1 = 'Time:{}, '.format(int(time.time() - start_time)) + logger1
     print(logger1)
+    #plt.plot(fas,frs)
+    #y=range(0,1)
+    #x=range(0,1)
+    #plt.plot(x,y)
+    #plt.show()

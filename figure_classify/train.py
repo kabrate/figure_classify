@@ -30,7 +30,7 @@ train_imgs = datasets.ImageFolder('E:/data/train/train', transforms.Compose([
 print(train_imgs.classes)
 train_data = torch.utils.data.DataLoader(train_imgs, batch_size=batch_size, shuffle=True)
 
-test_imgs = datasets.ImageFolder(os.path.join(data_dir, "test"), transforms.Compose([
+test_imgs = datasets.ImageFolder('E:/data/dev/test2', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             transforms.ToTensor(),

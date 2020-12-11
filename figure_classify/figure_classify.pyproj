@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3e7dccf-86bd-44e3-94e6-b0151ad9e6e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>test.py</StartupFile>
+    <StartupFile>eer.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,6 +25,10 @@
     <Compile Include="continue_train.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="eer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="load_dev.py" />
     <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -32,7 +36,7 @@
     <Compile Include="cudatest.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="load.py">
+    <Compile Include="load_eval.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pyc.py">

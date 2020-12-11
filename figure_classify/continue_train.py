@@ -18,7 +18,7 @@ batch_size = 128
 
 # 数据的读取
 data_dir = "./trainsleep"
-train_imgs = datasets.ImageFolder(os.path.join(data_dir, "train"), transforms.Compose([
+train_imgs = datasets.ImageFolder('E:/data/train/train', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             #transforms.RandomHorizontalFlip(),
@@ -30,7 +30,7 @@ train_imgs = datasets.ImageFolder(os.path.join(data_dir, "train"), transforms.Co
 print(train_imgs.classes)
 train_data = torch.utils.data.DataLoader(train_imgs, batch_size=batch_size, shuffle=True)
 
-test_imgs = datasets.ImageFolder(os.path.join(data_dir, "test"), transforms.Compose([
+test_imgs = datasets.ImageFolder('E:/data/dev/test', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             transforms.ToTensor(),
@@ -42,7 +42,7 @@ test_data = torch.utils.data.DataLoader(test_imgs, batch_size=batch_size, shuffl
 
 # 模型的建立
 
-model = pretrained=False
+model = models.resnet18(pretrained=False,num_classes=2)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = model.to(device)
 criterion = nn.CrossEntropyLoss()
@@ -61,7 +61,7 @@ epoch = 150
 #acc_test = np.zeros(20)
 k = 0
 acc_best = 0
-q = 5
+q = 100
 for epo in range(1,epoch+1):
     logger = 'epoch:{}'.format(epo)
     start_time = time.time()
