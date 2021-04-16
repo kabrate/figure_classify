@@ -10,7 +10,7 @@ from torchvision import datasets, transforms, models
 import time
 import os
 import copy
-
+import math
 input_size = 500
 batch_size = 128
 data_dir = "./trainsleep"
@@ -19,7 +19,7 @@ frs =np.zeros(250)
 fas =np.zeros(250)
 fr=0
 fa=0
-test_imgs = datasets.ImageFolder('E:/data/dev/test', transforms.Compose([
+test_imgs = datasets.ImageFolder('E:/data/eval/test', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             transforms.ToTensor(),
@@ -35,7 +35,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(),lr=0.0001)
 print('device:',device)
 print(model)
-model.load_state_dict(torch.load('model95.pth'))
+model.load_state_dict(torch.load('model215.pth'))
 #model = torch.load(path)
 print(model)
 start_time = time.time()
@@ -51,9 +51,9 @@ with torch.no_grad():
     model.eval()
     test_loss = 0
     num_correct = 0.0
-    out=open('preds.txt','a')
-    print( 'output1'+' ' +'output2'+' ' +'score' +' ' + 'labels' +' ' + 'preds' +' '+ 'probability0'+' ' +'probability1',file=out)
-    out.close()
+    #out=open('preds.txt','a')
+    #print( 'score' +' ' + 'labels',file=out)
+    #out.close()
     for index, [img, labels] in enumerate(test_data):
         inputs, labels = img.to(device).float(), labels.to(device)      
         outputs = model(inputs)
@@ -63,16 +63,21 @@ with torch.no_grad():
         probability = torch.nn.functional.softmax(outputs,dim=1)#计算softmax，即该图片属于各类的概率
         out=open('preds.txt','a')
         for i in range(0,len(labels)): 
-            score=round(scores[i].cpu().item(),4)
-            output0= round(outputs[i][0].cpu().item(),4)
-            output1= round(outputs[i][1].cpu().item(),4)
-            probability0=round(probability[i][0].cpu().item(),4)
-            probability1=round(probability[i][1].cpu().item(),4)
-            print( str(output0)+' ' +str(output1)+' ' +str(score) +' ' + str(labels[i].cpu().item()) +' ' + str(preds[i].cpu().item())+' '+ str(probability0)+' ' +str(probability1) ,file=out)
+            #score=round(scores[i].cpu().item(),4)
+            #output0= round(outputs[i][0].cpu().item(),4)
+            #output1= round(outputs[i][1].cpu().item(),4)
+            #probability0=round(probability[i][0].cpu().item(),4)
+            #probability1=round(probability[i][1].cpu().item(),4)
+            probability0=probability[i][0].cpu().item()
+            probability1=probability[i][1].cpu().item()
+            #score=round((probability1-probability0)*100,4)
+            score=math.log(probability1)-math.log(probability0)
+            #print( str(output0)+' ' +str(output1)+' ' +str(score) +' ' + str(labels[i].cpu().item()) +' ' + str(preds[i].cpu().item())+' '+ str(probability0)+' ' +str(probability1) ,file=out)
+            print( str(score) +' ' + str(labels[i].cpu().item()) ,file=out)
         out.close()
         #num_correct += preds.eq(labels).sum().float().item()
         num_correct += (preds == labels).sum()
-        torch.cuda.empty_cache()
+        #torch.cuda.empty_cache()
         #if (preds.size()!=ons.size() or preds.size()!=zes.size()):
         #    ons=ons.resize_(preds.size())
         #    zes=zes.resize_(preds.size())

@@ -1,9 +1,9 @@
 target_scores = []
 nontarget_scores = []
-f = open('scores.csv').readlines()
+f = open('merge_result1.csv').readlines()
 #将两个数组读出来
 for line in f:
-    splits = line.strip().split(',')
+    splits = line.strip().split(' ')
     print(splits)
     if splits[1] == '1':
         target_scores.append(eval(splits[0]))

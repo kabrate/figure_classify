@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3e7dccf-86bd-44e3-94e6-b0151ad9e6e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>eer.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,6 +13,7 @@
     <Name>figure_classify</Name>
     <RootNamespace>figure_classify</RootNamespace>
     <InterpreterId>MSBuild|classify|$(MSBuildProjectFullPath)</InterpreterId>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +30,11 @@
     <Compile Include="eer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="load_train.py" />
     <Compile Include="load_dev.py" />
+    <Compile Include="get_filename.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>

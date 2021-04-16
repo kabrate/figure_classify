@@ -49,10 +49,10 @@ criterion = nn.CrossEntropyLoss()
 #optimizer = optim.Adam(model.parameters(),lr=0.001,weight_decay=5e-4)
 optimizer = optim.Adam(model.parameters(),lr=0.0001)
 print('device:',device)
-model.load_state_dict(torch.load('model95.pth'))
+model.load_state_dict(torch.load('E:/data/model/model95.pth'))
 print(model)
 
-epoch = 150
+epoch = 200
 
 # for _,[img,label] in enumerate(train_data):
 #     print(img)
@@ -61,7 +61,7 @@ epoch = 150
 #acc_test = np.zeros(20)
 k = 0
 acc_best = 0
-q = 100
+q = 95 #训练好的次数
 for epo in range(1,epoch+1):
     logger = 'epoch:{}'.format(epo)
     start_time = time.time()
@@ -86,18 +86,25 @@ for epo in range(1,epoch+1):
     #acc_train[epo] = num_correct/len(train_data.dataset)
     print(logger)
 
-    if epo % 1 == 0:
+    if epo % 5 == 0:
         with torch.no_grad():
             model.eval()
             test_loss = 0
             num_correct = 0.0
             for _, [img, labels] in enumerate(test_data):
-                inputs, labels = img.to(device).float(), labels.to(device)
+                inputs, labels = img.to(device).float(), labels.to(device)      
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
                 test_loss += float(loss.cpu().item())
-                _, preds = outputs.max(1)
-                num_correct += preds.eq(labels).sum().float().item()
+                scores, preds = outputs.max(1)
+                probability = torch.nn.functional.softmax(outputs,dim=1)#计算softmax，即该图片属于各类的概率
+                out=open(str(epoch)+ 'preds.txt','a')
+                for i in range(0,len(labels)): 
+                    probability0=round(probability[i][0].cpu().item(),4)
+                    probability1=round(probability[i][1].cpu().item(),4)
+                    score=round((probability1-probability0)*100,4)
+                    print( str(score) +' ' + str(labels[i].cpu().item()) ,file=out)
+                out.close()
             logger1 = 'test loss:{:.6f}'.format(test_loss)
             logger1 += ', test acc:{:.6f}'.format(num_correct / len(test_data.dataset))
             logger1 = 'Time:{}, '.format(int(time.time() - start_time)) + logger1
