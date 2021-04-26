@@ -18,7 +18,7 @@ batch_size = 64
 
 # 数据的读取
 data_dir = "./trainsleep"
-train_imgs = datasets.ImageFolder('E:/data/train/train', transforms.Compose([
+train_imgs = datasets.ImageFolder('E:/data/spec1', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             #transforms.RandomHorizontalFlip(),
@@ -30,7 +30,7 @@ train_imgs = datasets.ImageFolder('E:/data/train/train', transforms.Compose([
 print(train_imgs.classes)
 train_data = torch.utils.data.DataLoader(train_imgs, batch_size=batch_size, shuffle=True)
 
-test_imgs = datasets.ImageFolder('E:/data/dev/test2', transforms.Compose([
+test_imgs = datasets.ImageFolder('E:/data/spec1_test', transforms.Compose([
             transforms.Resize(input_size),
             transforms.RandomResizedCrop(input_size),
             transforms.ToTensor(),
@@ -51,7 +51,7 @@ optimizer = optim.Adam(model.parameters(),lr=0.0001)
 print('device:',device)
 print(model)
 
-epoch = 150
+epoch = 30
 
 # for _,[img,label] in enumerate(train_data):
 #     print(img)

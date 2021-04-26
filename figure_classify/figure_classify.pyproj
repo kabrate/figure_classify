@@ -4,8 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a3e7dccf-86bd-44e3-94e6-b0151ad9e6e6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>get_filename.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -27,12 +26,19 @@
     <Compile Include="continue_train.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="copy_file.py" />
     <Compile Include="eer.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="load_train.py" />
     <Compile Include="load_dev.py" />
     <Compile Include="get_filename.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="copy_dir.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="rename.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test.py">

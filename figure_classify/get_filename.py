@@ -13,7 +13,7 @@ def file_name(file_dir):
         voice.close(); 
 def read_excel():
     # 打开文件
-    workBook = xlrd.open_workbook('E:/data/POCO/poco/voice5.xlsx');
+    workBook = xlrd.open_workbook('E:/data/POCO/poco/sperate1.xlsx');
 
     # 1.获取sheet的名字
     # 1.1 获取所有sheet的名字(list类型)
@@ -39,12 +39,12 @@ def read_excel():
     print(rows);   
     
     source ='E:\\data\\POCO\\poco\\'
-    target = 'E:\\data\\poco1\\'
+    target = 'E:\\data\\rp\\'
     for item in range(0,content.nrows):#遍历excel
         filename=content.cell(item,0).value#第一列
-        voice=open('voice.txt','a')
+        voice=open('rp.txt','a')
         print('md ' +target+ filename ,file=voice)#分两步
-        print('xcopy ' +source+ filename+' ' + target+filename+' /s' ,file=voice)#分两步
+        #print('xcopy ' +source+ filename+' ' + target+filename+' /s' ,file=voice)#分两步
         voice.close();
 read_excel()
 
